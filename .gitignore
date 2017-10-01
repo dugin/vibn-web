@@ -9,13 +9,13 @@ yarn.lock
 
 # testing
 /coverage
-
 # production
 /client/build
 
 # misc
 .DS_Store
 .env.local
+.env
 .env.development.local
 .env.test.local
 .env.production.local

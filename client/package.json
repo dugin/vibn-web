@@ -3,15 +3,49 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.16.2",
+    "bootstrap": "^4.0.0-beta",
+    "fb-react-sdk": "^1.0.4",
+    "font-awesome": "^4.7.0",
+    "form-serialize": "^0.7.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "^4.1.1",
+    "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14"
+    "react-facebook-login": "^3.6.2",
+    "react-loading": "^0.1.4",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "react-text-mask": "^5.0.2",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "enzyme": "^2.9.1",
+    "enzyme-to-json": "^2.0.0",
+    "jest-cli": "^21.1.0",
+    "react-test-renderer": "^15.6.1",
+    "sinon": "^3.3.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!src/registerServiceWorker.js"
+    ]
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start-js": "react-scripts start",
+    "start": "PORT=8100 npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "test": "react-scripts test --env=jsdom --verbose",
     "test:CI": "CI=true npm run test",
+    "test:coverage": "npm run test -- --coverage",
     "eject": "react-scripts eject"
   }
 }

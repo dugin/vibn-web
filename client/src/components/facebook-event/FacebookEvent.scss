@@ -1,0 +1,45 @@
+@import '../../variables';
+
+.FacebookEvent {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form-group {
+    text-align: start;
+  }
+
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__info {
+    width: 100%;
+    padding: 0 10px;
+
+    .img-wrapper {
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .img {
+        max-width: 100%;
+      }
+    }
+
+    .attendingCount{
+      margin-left: -30px;
+    }
+
+    &__ID {
+      padding-bottom: 30px;
+      border-bottom: 1px solid $color__lineCard--gray;
+    }
+
+  }
+
+}

@@ -1,0 +1,25 @@
+.FacebookEvent {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .FacebookEvent .form-group {
+    text-align: start; }
+  .FacebookEvent__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+  .FacebookEvent__info {
+    width: 100%;
+    padding: 0 10px; }
+    .FacebookEvent__info .img-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      .FacebookEvent__info .img-wrapper .img {
+        max-width: 100%; }
+    .FacebookEvent__info .attendingCount {
+      margin-left: -30px; }
+    .FacebookEvent__info__ID {
+      padding-bottom: 30px;
+      border-bottom: 1px solid #d1d1d1; }
