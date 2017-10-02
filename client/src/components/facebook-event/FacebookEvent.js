@@ -63,6 +63,7 @@ class FacebookEvent extends Component {
                     <FacebookLogin className="FacebookEvent__facebook--btn"
                                    appId={process.env.REACT_APP_FACEBOOK_APPID}
                                    autoLoad={true}
+                                   reauthenticate={true}
                                    fields="name,email,picture"
                                    callback={this.responseFacebook}/>
                 )}

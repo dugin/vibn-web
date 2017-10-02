@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import moment from 'moment';
+import {setEvent} from "../../actions/event";
+import {connect} from 'react-redux';
 
 class FacebookEventInfo extends Component {
-
 
     constructor(props) {
         super(props);
@@ -16,12 +17,10 @@ class FacebookEventInfo extends Component {
 
 
     setDate = (date) => {
-        console.log(date);
         return moment(date, moment.ISO_8601).format('DD/MM/YYYY');
     };
 
     setTime = (date) => {
-        console.log(date);
         return moment(date, moment.ISO_8601).format('HH:mm');
     };
 
@@ -147,4 +146,13 @@ class FacebookEventInfo extends Component {
     }
 }
 
-export default FacebookEventInfo;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setEvent: (event) => dispatch(setEvent(event)),
+    }
+};
+
+const mapStateToProps = (state, props) => ({book: props.book});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(FacebookEventInfo);
