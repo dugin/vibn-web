@@ -17,7 +17,7 @@ class FacebookEvent extends Component {
     };
 
     getEvent = (e) => {
-        this.setState({isGettingEvent: true});
+        this.setState({isGettingEvent: true, info: null});
 
         e.preventDefault();
         const values = serializeForm(e.target, {hash: true});
@@ -52,10 +52,10 @@ class FacebookEvent extends Component {
                         )}
 
                         {this.state.info && (
-                        <div className="mt-3  px-0">
-                        <FacebookEventInfo
-                            info={this.state.info}/>
-                        </div>
+                            <div className="mt-3  px-0">
+                                <FacebookEventInfo
+                                    info={this.state.info}/>
+                            </div>
                         )}
 
                     </div>

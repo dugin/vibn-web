@@ -32,7 +32,11 @@
     }
 
     .attendingCount{
-      margin-left: -30px;
+
+      @media  (min-width: $screen-sm-min){
+        margin-left: -30px;
+      }
+
     }
 
     &__ID {

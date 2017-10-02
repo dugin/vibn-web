@@ -81,7 +81,7 @@ class FacebookEventInfo extends Component {
                         <div className="row">
                             <div className="col-md-5">
                                 <input type="text" className="form-control" id="address"
-                                       defaultValue={this.state.info.place.location.street}/>
+                                    placeholder="Endereço"   defaultValue={this.state.info.place.location.street}/>
                             </div>
                             <div className="col-md-3">
                                 <input type="text" className="form-control " id="name"
