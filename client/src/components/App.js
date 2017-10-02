@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import FacebookLogin from 'react-facebook-login';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import RegisterPage from "./register/Register.page";
 
