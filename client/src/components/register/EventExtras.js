@@ -6,6 +6,7 @@ import {TAGS} from "../../utils/constants";
 import {addOrRemoveFromArray, removeAccentAndSpace} from "../../utils/utils";
 import {Redirect} from 'react-router-dom';
 import moment from 'moment';
+import serializeForm from 'form-serialize';
 
 class EventExtras extends Component {
 
@@ -77,13 +78,15 @@ class EventExtras extends Component {
 
     onSend = (e) => {
         e.preventDefault();
+
+        const values = serializeForm(e.target, {hash: true});
+
         const result = {
             tags: this.state.tags,
             ...this.props.event,
+            ...values,
             createdAt: moment().toJSON()
         };
-
-        console.log(result);
 
         this.setState({isSending: true});
 
