@@ -7,7 +7,6 @@ exports[`App renders properly 1`] = `
   <Switch>
     <Route
       component={[Function]}
-      exact={true}
       path="/admin/events/register/"
     />
     <Redirect

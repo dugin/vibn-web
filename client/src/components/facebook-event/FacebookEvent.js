@@ -34,7 +34,7 @@ class FacebookEvent extends Component {
     render() {
         return (
             <div className="FacebookEvent row">
-                {this.state.acessToken ? (
+                {this.state.acessToken  ? (
                     <div className="FacebookEvent__info">
                         <form onSubmit={this.getEvent} className="form-inline FacebookEvent__info__ID">
                             <div className="form-group col-8 mb-0 pl-0">
@@ -61,7 +61,7 @@ class FacebookEvent extends Component {
                     </div>
                 ) : (
                     <FacebookLogin className="FacebookEvent__facebook--btn"
-                                   appId={process.env.REACT_APP_FACEBOOK_APPID}
+                                   appId={process.env.REACT_APP_FACEBOOK_APP_ID}
                                    autoLoad={true}
                                    reauthenticate={true}
                                    fields="name,email,picture"

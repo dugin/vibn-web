@@ -9,6 +9,10 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import eventReducer from './reducers/event';
+import config from './firebaseSetup';
+import firebase from 'firebase';
+
+firebase.initializeApp(config);
 
 const store = createStore(eventReducer);
 

@@ -11,7 +11,7 @@ export const getAcessToken = () => {
 
 export const getEvent = (id) => {
     return new Promise((resolve, reject) => {
-        graph.get(`/${id}?fields=name,attending_count,cover,description,is_canceled,owner,start_time,end_time,place`,
+        graph.get(`/${id}?fields=id,name,attending_count,cover,description,is_canceled,owner,start_time,end_time,place`,
             (err, res) => {
                 err ? reject(err) : resolve(res);
             })

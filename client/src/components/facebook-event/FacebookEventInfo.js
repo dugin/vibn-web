@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import {setEvent} from "../../actions/event";
 import {connect} from 'react-redux';
+import serializeForm from 'form-serialize';
+import {Redirect} from 'react-router-dom';
 
 class FacebookEventInfo extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {info: props.info};
+        this.state = {info: props.info, onContinue: false};
     }
 
     componentWillReceiveProps(nextProps) {
@@ -24,10 +26,25 @@ class FacebookEventInfo extends Component {
         return moment(date, moment.ISO_8601).format('HH:mm');
     };
 
+    onContinue = (e) => {
+        e.preventDefault();
+
+        const values = serializeForm(e.target, {hash: true});
+
+        values.img = this.state.info.cover && this.state.info.cover.source;
+
+        this.props.setEvent(values);
+
+        this.setState({onContinue: true})
+    };
+
     render() {
+        if (this.state.onContinue)
+            return <Redirect push to="/admin/events/register/continue"/>;
 
         return (
-            <form className="row">
+            <form className="row" onSubmit={this.onContinue}>
+
                 <div className="col-12 col-md-4 img-wrapper">
                     <img className="rounded img" src={this.state.info.cover ? this.state.info.cover.source : ''}
                          height={120} width="auto"
@@ -37,18 +54,18 @@ class FacebookEventInfo extends Component {
                 <div className="col-md-8 col-12">
                     <div className="form-group">
                         <label htmlFor="name">Título</label>
-                        <input type="name" className="form-control" required id="name"
+                        <input type="name" className="form-control" required id="name" name="title"
                                defaultValue={this.state.info.name}/>
                     </div>
                     <div className="row">
                         <div className="form-group col-md-10">
                             <label htmlFor="name">Subtítulo</label>
-                            <input type="name" className="form-control" id="name" required
+                            <input type="name" className="form-control" id="name" required name="subtitle"
                             />
                         </div>
                         <div className="form-group col-md-2">
                             <label className="attendingCount" htmlFor="name">Confirmados</label>
-                            <input type="name" className="form-control" id="name"
+                            <input name="attendingCount" type="name" className="form-control" id="name"
                                    defaultValue={this.state.info.attending_count}/>
                         </div>
                     </div>
@@ -60,11 +77,11 @@ class FacebookEventInfo extends Component {
                         <div className="row">
                             <div className="col-md-6">
                                 <input type="name" className="form-control" id="name" required
-                                       defaultValue={this.setDate(this.state.info.start_time)}/>
+                                       name="startDate" defaultValue={this.setDate(this.state.info.start_time)}/>
                             </div>
                             <div className="col-md-6">
                                 <input type="name" className="form-control" id="name" required
-                                       defaultValue={this.setTime(this.state.info.start_time)}/>
+                                       name="startTime" defaultValue={this.setTime(this.state.info.start_time)}/>
                             </div>
                         </div>
                     </div>
@@ -75,11 +92,11 @@ class FacebookEventInfo extends Component {
                         <div className="row">
                             <div className="col-md-6">
                                 <input type="name" className="form-control" id="name" required
-                                       defaultValue={this.setDate(this.state.info.end_time)}/>
+                                       name="endDate" defaultValue={this.setDate(this.state.info.end_time)}/>
                             </div>
                             <div className="col-md-6">
                                 <input type="name" className="form-control" id="name" required
-                                       defaultValue={this.setTime(this.state.info.end_time)}/>
+                                       name="endTime" defaultValue={this.setTime(this.state.info.end_time)}/>
                             </div>
                         </div>
                     </div>
@@ -89,18 +106,18 @@ class FacebookEventInfo extends Component {
                         <div className="form-group col-md-6 ">
                             <label htmlFor="place">Local</label>
                             <input type="text" className="form-control " id="place" required
-                                   defaultValue={this.state.info.place.name}/>
+                                   name="place" defaultValue={this.state.info.place.name}/>
                         </div>
                         <div className="form-group col-md-6 ">
                             <label htmlFor="coord">Coordenadas</label>
                             <div className="row">
                                 <div className="col-md-6">
                                     <input type="text" className="form-control " id="coord" required
-                                           defaultValue={this.state.info.place.location.latitude}/>
+                                           name="latitude" defaultValue={this.state.info.place.location && this.state.info.place.location.latitude }/>
                                 </div>
                                 <div className="col-md-6">
                                     <input type="text" className="form-control " id="coord" required
-                                           defaultValue={this.state.info.place.location.longitude}/>
+                                           name="longitude" defaultValue={this.state.info.place.location && this.state.info.place.location.longitude}/>
                                 </div>
                             </div>
                         </div>
@@ -112,19 +129,20 @@ class FacebookEventInfo extends Component {
                         <div className="row">
                             <div className="col-md-5">
                                 <input type="text" className="form-control" id="address" required
-                                       placeholder="Endereço" defaultValue={this.state.info.place.location.street}/>
+                                       name="address" placeholder="Endereço"
+                                       defaultValue={this.state.info.place.location && this.state.info.place.location.street}/>
                             </div>
                             <div className="col-md-3">
                                 <input type="text" className="form-control " id="name" required
-                                       placeholder="Bairro"/>
+                                       name="neighborhood" placeholder="Bairro"/>
                             </div>
                             <div className="col-md-3">
                                 <input type="text" className="form-control " id="name" required
-                                       defaultValue={this.state.info.place.location.city}/>
+                                       name="city" defaultValue={this.state.info.place.location && this.state.info.place.location.city}/>
                             </div>
                             <div className="col-md-1">
                                 <input type="text" className="form-control " id="name" required
-                                       defaultValue={this.state.info.place.location.state}/>
+                                       name="state" defaultValue={this.state.info.place.location && this.state.info.place.location.state}/>
                             </div>
                         </div>
                     </div>
@@ -133,7 +151,7 @@ class FacebookEventInfo extends Component {
                 <div className="col-md-12">
                     <div className="form-group mt-2">
                         <label htmlFor="desc">Descrição</label>
-                        <textarea name="text" className="form-control" id="desc"
+                        <textarea name="description" className="form-control" id="desc"
                                   defaultValue={this.state.info.description} rows="15" cols="50"/>
                     </div>
 
@@ -152,7 +170,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const mapStateToProps = (state, props) => ({book: props.book});
+const mapStateToProps = (state, props) => ({event: props.event});
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacebookEventInfo);
