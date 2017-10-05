@@ -5,6 +5,7 @@ import {getTags, postEvent} from "../../api/FirebaseAPI";
 import {TAGS} from "../../utils/constants";
 import {addOrRemoveFromArray, removeAccentAndSpace} from "../../utils/utils";
 import {Redirect} from 'react-router-dom';
+import moment from 'moment';
 
 class EventExtras extends Component {
 
@@ -76,7 +77,11 @@ class EventExtras extends Component {
 
     onSend = (e) => {
         e.preventDefault();
-        const result = {tags: this.state.tags, ...this.props.event};
+        const result = {
+            tags: this.state.tags,
+            ...this.props.event,
+            createdAt: moment().toJSON()
+        };
 
         console.log(result);
 
