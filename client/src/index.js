@@ -11,9 +11,6 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import eventReducer from './reducers/event';
 
-
-
-
 const store = createStore(eventReducer);
 
 ReactDOM.render(

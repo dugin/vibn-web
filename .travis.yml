@@ -12,7 +12,7 @@ install:
   - (cd functions && npm install)
 
 script:
-  - (cd client && npm run test:CI && npm run build)
+  - (cd client && npm run build)
 
 deploy:
   skip_cleanup: true
