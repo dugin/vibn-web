@@ -1,18 +1,100 @@
 import React, {Component} from 'react';
 import './EventExtras.css';
 import {connect} from 'react-redux';
+import {getTags, postEvent} from "../../api/FirebaseAPI";
+import {TAGS} from "../../utils/constants";
+import {addOrRemoveFromArray, removeAccentAndSpace} from "../../utils/utils";
+import {Redirect} from 'react-router-dom';
 
 class EventExtras extends Component {
 
+    state = {
+        locationRegion: [],
+        musicStyle: [],
+        partyKind: [],
+        tags: {locationRegion: [], musicStyle: [], partyKind: []},
+        isSending: false,
+        success: false
+    };
+
+    componentDidMount() {
+
+        this.getAllTags();
+
+    }
+
+    getAllTags = () => {
+
+        Promise.all(Object.values(TAGS).map(t => getTags(t)))
+            .then(val => {
+                val.forEach((d, i) => {
+                    this.setState({
+                        [Object.values(TAGS)[i]]:
+                            Object.keys(this.state)[i].localeCompare(TAGS.LOCATION_REGION) === 0 ?
+                                d.data()[removeAccentAndSpace(this.props.event.city || 'Rio de Janeiro')] :
+                                d.data().name
+                    })
+                })
+            })
+    };
+
+    onLocationRegion = (index) => {
+        const region = this.state.locationRegion[index];
+
+        this.setState(state => ({
+            tags: {
+                locationRegion: addOrRemoveFromArray(this.state.tags.locationRegion, region),
+                musicStyle: state.tags.musicStyle,
+                partyKind: state.tags.partyKind
+            }
+        }));
+
+    };
+    onPartyKind = (index) => {
+        const party = this.state.partyKind[index];
+
+        this.setState(state => ({
+            tags: {
+                partyKind: addOrRemoveFromArray(this.state.tags.partyKind, party),
+                musicStyle: state.tags.musicStyle,
+                locationRegion: state.tags.locationRegion
+            }
+        }));
+    };
+    onMusicStyle = (index) => {
+        const music = this.state.musicStyle[index];
+
+        this.setState(state => ({
+            tags: {
+                musicStyle: addOrRemoveFromArray(this.state.tags.musicStyle, music),
+                locationRegion: state.tags.locationRegion,
+                partyKind: state.tags.partyKind
+            }
+        }));
+    };
+
+
     onSend = (e) => {
         e.preventDefault();
+        const result = {tags: this.state.tags, ...this.props.event};
 
+        console.log(result);
 
-        console.log(this.props.event)
+        this.setState({isSending: true});
 
+        postEvent(result)
+            .then(resp => {
+                this.setState({success: true});
+            })
+            .catch(err => {
+                this.setState({isSending: false});
+            })
     };
 
     render() {
+
+        if (this.state.success)
+            return <Redirect push to="/admin/events/register"/>;
 
         return (
             <form className="row EventExtras" onSubmit={this.onSend}>
@@ -33,53 +115,47 @@ class EventExtras extends Component {
                 </div>
                 <div className="col-md-4">
                     <p>Música</p>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" value=""/>
-                            Sertanejo
-                        </label>
-                    </div>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" value=""/>
-                            Eletrônica
-                        </label>
-                    </div>
+                    {this.state.musicStyle.map((m, i) => (
+                        <div key={i} className="form-check">
+                            <label className="form-check-label">
+                                <input className="form-check-input" onClick={() => this.onMusicStyle(i)}
+                                       type="checkbox" value=""/>
+                                {m}
+                            </label>
+                        </div>
+                    ))}
                 </div>
                 <div className="col-md-4">
                     <p>Tipo</p>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" value=""/>
-                              Open Bar
-                        </label>
-                    </div>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" value=""/>
-                              Choppada
-                        </label>
-                    </div>
+                    {this.state.partyKind.map((p, i) => (
+                        <div key={i} className="form-check">
+                            <label className="form-check-label">
+                                <input className="form-check-input" onClick={() => this.onPartyKind(i)}
+                                       type="checkbox" value=""/>
+                                {p}
+                            </label>
+                        </div>
+                    ))}
 
                 </div>
                 <div className="col-md-4">
                     <p>Local</p>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" value=""/>
-                            Zona Sul
-                        </label>
-                    </div>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" value=""/>
-                            Barra
-                        </label>
-                    </div>
+                    {this.state.locationRegion.map((l, i) => (
+                        <div key={i} className="form-check">
+                            <label className="form-check-label">
+                                <input className="form-check-input" onClick={() => this.onLocationRegion(i)}
+                                       type="checkbox"
+                                       value=""/>
+                                {l}
+                            </label>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="col-12 mt-5">
-                    <button className="btn btn-primary btn-block"> Enviar </button>
+                    <button disabled={this.state.isSending}
+                            className="btn btn-primary  btn-block">
+                        {this.state.isSending ? 'Enviando...' : 'Enviar'}</button>
                 </div>
             </form>
 

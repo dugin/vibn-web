@@ -6,8 +6,10 @@
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-beta",
     "fb-react-sdk": "^1.0.4",
+    "firebase": "^4.5.0",
     "font-awesome": "^4.7.0",
     "form-serialize": "^0.7.2",
+    "latinize": "^0.4.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "node-sass-chokidar": "0.0.3",
@@ -21,14 +23,13 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "react-text-mask": "^5.0.2",
-    "redux": "^3.7.2",
-    "firebase":"^4.5.0"
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^2.0.0",
     "jest-cli": "^21.1.0",
-    "react-test-renderer":"^16.0.0",
+    "react-test-renderer": "^16.0.0",
     "sinon": "^3.3.0"
   },
   "jest": {

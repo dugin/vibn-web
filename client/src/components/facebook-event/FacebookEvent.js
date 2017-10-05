@@ -16,6 +16,10 @@ class FacebookEvent extends Component {
         facebookAPI.setAcessToken(response.accessToken);
     };
 
+   componentDidMount(){
+      this.setState({acessToken: facebookAPI.getAcessToken()});
+   }
+
     getEvent = (e) => {
         this.setState({isGettingEvent: true, info: null});
 

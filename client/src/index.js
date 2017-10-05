@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './firebaseSetup';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './index.css';
@@ -9,10 +10,9 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import eventReducer from './reducers/event';
-import config from './firebaseSetup';
-import firebase from 'firebase';
 
-firebase.initializeApp(config);
+
+
 
 const store = createStore(eventReducer);
 
