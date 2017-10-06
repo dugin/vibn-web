@@ -5,23 +5,41 @@ import serializeForm from 'form-serialize';
 import './FacebookEvent.css';
 import ReactLoading from 'react-loading';
 import FacebookEventInfo from "./FacebookEventInfo";
+import {connect} from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
 
 class FacebookEvent extends Component {
 
-    state = {isGettingEvent: false, acessToken: null, info: null};
+    static info;
+
+    state = {
+        isGettingEvent: false,
+        acessToken: null,
+        info: FacebookEvent.info
+    };
 
     responseFacebook = (response) => {
-        this.setState({isLoggingIn: false, acessToken: response.accessToken});
+        this.setState({
+            isLoggingIn: false,
+            acessToken: response.accessToken
+        });
 
         facebookAPI.setAcessToken(response.accessToken);
     };
 
-   componentDidMount(){
-      this.setState({acessToken: facebookAPI.getAcessToken()});
-   }
+    componentDidMount() {
+
+        this.setState({
+            acessToken: facebookAPI.getAcessToken()
+        });
+    }
+
 
     getEvent = (e) => {
-        this.setState({isGettingEvent: true, info: null});
+        this.setState({
+            isGettingEvent: true,
+            info: null
+        });
 
         e.preventDefault();
         const values = serializeForm(e.target, {hash: true});
@@ -29,6 +47,8 @@ class FacebookEvent extends Component {
         facebookAPI.getEvent(values.eventID)
             .then(info => {
                 console.log(info);
+
+                FacebookEvent.info = info;
 
                 this.setState({isGettingEvent: false, info});
             })
@@ -38,7 +58,7 @@ class FacebookEvent extends Component {
     render() {
         return (
             <div className="FacebookEvent row">
-                {this.state.acessToken  ? (
+                {this.state.acessToken ? (
                     <div className="FacebookEvent__info">
                         <form onSubmit={this.getEvent} className="form-inline FacebookEvent__info__ID">
                             <div className="form-group col-8 mb-0 pl-0">
@@ -55,7 +75,7 @@ class FacebookEvent extends Component {
                             </div>
                         )}
 
-                        {this.state.info && (
+                        {!isEmpty(this.state.info) && (
                             <div className="mt-3  px-0">
                                 <FacebookEventInfo
                                     info={this.state.info}/>
@@ -78,4 +98,6 @@ class FacebookEvent extends Component {
     }
 }
 
-export default FacebookEvent;
+const mapStateToProps = (state, props) => ({event: state.event});
+
+export default connect(mapStateToProps, null)(FacebookEvent);

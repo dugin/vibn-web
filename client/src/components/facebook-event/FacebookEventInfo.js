@@ -4,8 +4,11 @@ import {setEvent} from "../../actions/event";
 import {connect} from 'react-redux';
 import serializeForm from 'form-serialize';
 import {Redirect} from 'react-router-dom';
+import {dateMask, timeMask} from "../../utils/masks";
+import MaskedInput from "react-text-mask";
 
 class FacebookEventInfo extends Component {
+
 
     constructor(props) {
         super(props);
@@ -32,8 +35,11 @@ class FacebookEventInfo extends Component {
         const values = serializeForm(e.target, {hash: true});
 
         values.img = this.state.info.cover && this.state.info.cover.source;
+        values.id = this.state.info.id;
 
         this.props.setEvent(values);
+
+        FacebookEventInfo.event = values;
 
         this.setState({onContinue: true})
     };
@@ -76,12 +82,15 @@ class FacebookEventInfo extends Component {
                         <label htmlFor="name">Dia e hora de Início</label>
                         <div className="row">
                             <div className="col-md-6">
-                                <input type="name" className="form-control" id="name" required
-                                       name="startDate" defaultValue={this.setDate(this.state.info.start_time)}/>
+                                <MaskedInput mask={dateMask}
+                                             type="name"
+                                             className="form-control" id="name" required
+                                             name="startDate" value={this.setDate(this.state.info.start_time)}/>
                             </div>
                             <div className="col-md-6">
-                                <input type="name" className="form-control" id="name" required
-                                       name="startTime" defaultValue={this.setTime(this.state.info.start_time)}/>
+                                <MaskedInput mask={timeMask}
+                                             type="name" className="form-control" id="name" required
+                                             name="startTime" value={this.setTime(this.state.info.start_time)}/>
                             </div>
                         </div>
                     </div>
@@ -91,12 +100,14 @@ class FacebookEventInfo extends Component {
                         <label htmlFor="name">Dia e hora de Término</label>
                         <div className="row">
                             <div className="col-md-6">
-                                <input type="name" className="form-control" id="name" required
-                                       name="endDate" defaultValue={this.setDate(this.state.info.end_time)}/>
+                                <MaskedInput mask={dateMask}
+                                             type="name" className="form-control" id="name" required
+                                             name="endDate" value={this.setDate(this.state.info.end_time)}/>
                             </div>
                             <div className="col-md-6">
-                                <input type="name" className="form-control" id="name" required
-                                       name="endTime" defaultValue={this.setTime(this.state.info.end_time)}/>
+                                <MaskedInput mask={timeMask}
+                                             type="name" className="form-control" id="name" required
+                                             name="endTime" value={this.setTime(this.state.info.end_time)}/>
                             </div>
                         </div>
                     </div>
@@ -112,12 +123,14 @@ class FacebookEventInfo extends Component {
                             <label htmlFor="coord">Coordenadas</label>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <input type="text" className="form-control " id="coord" required
-                                           name="latitude" defaultValue={this.state.info.place.location && this.state.info.place.location.latitude }/>
+                                    <input type="text" className="form-control " id="coord"
+                                           name="latitude"
+                                           defaultValue={this.state.info.place.location && this.state.info.place.location.latitude}/>
                                 </div>
                                 <div className="col-md-6">
-                                    <input type="text" className="form-control " id="coord" required
-                                           name="longitude" defaultValue={this.state.info.place.location && this.state.info.place.location.longitude}/>
+                                    <input type="text" className="form-control " id="coord"
+                                           name="longitude"
+                                           defaultValue={this.state.info.place.location && this.state.info.place.location.longitude}/>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +141,7 @@ class FacebookEventInfo extends Component {
                         <label htmlFor="address">Endereço</label>
                         <div className="row">
                             <div className="col-md-5">
-                                <input type="text" className="form-control" id="address" required
+                                <input type="text" className="form-control" id="address"
                                        name="address" placeholder="Endereço"
                                        defaultValue={this.state.info.place.location && this.state.info.place.location.street}/>
                             </div>
@@ -138,11 +151,13 @@ class FacebookEventInfo extends Component {
                             </div>
                             <div className="col-md-3">
                                 <input type="text" className="form-control " id="name" required
-                                       name="city" defaultValue={this.state.info.place.location && this.state.info.place.location.city}/>
+                                       name="city"
+                                       defaultValue={this.state.info.place.location && this.state.info.place.location.city}/>
                             </div>
                             <div className="col-md-1">
                                 <input type="text" className="form-control " id="name" required
-                                       name="state" defaultValue={this.state.info.place.location && this.state.info.place.location.state}/>
+                                       name="state"
+                                       defaultValue={this.state.info.place.location && this.state.info.place.location.state}/>
                             </div>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ export const getTags = (type) => {
 };
 
 export const postEvent = (event) => {
-    const eventsRef = db.collection("events");
+    const eventsRef = db.collection("events").doc(event.id);
 
-    return eventsRef.add(event);
+    return eventsRef.set(event);
 };

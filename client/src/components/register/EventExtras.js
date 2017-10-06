@@ -7,6 +7,7 @@ import {addOrRemoveFromArray, removeAccentAndSpace} from "../../utils/utils";
 import {Redirect} from 'react-router-dom';
 import moment from 'moment';
 import serializeForm from 'form-serialize';
+import isEmpty from 'lodash/isEmpty';
 
 class EventExtras extends Component {
 
@@ -22,6 +23,8 @@ class EventExtras extends Component {
     componentDidMount() {
 
         this.getAllTags();
+
+        console.log(this.props.event);
 
     }
 
@@ -101,23 +104,30 @@ class EventExtras extends Component {
 
     render() {
 
-        if (this.state.success)
+        if (this.state.success || isEmpty(this.props.event))
             return <Redirect push to="/admin/events/register"/>;
 
         return (
             <form className="row EventExtras" onSubmit={this.onSend}>
 
-                <div className=" col-md-4">
+                <div className=" col-md-3">
                     <div className="form-group">
                         <label htmlFor="name">Cupom</label>
-                        <input type="name" className="form-control" id="name" name="coupon"
+                        <input type="name" className="form-control"  name="coupon"
                         />
                     </div>
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-2">
+                    <div className="form-group">
+                        <label htmlFor="name">Desconto (%)</label>
+                        <input type="number" className="form-control" name="discount"
+                        />
+                    </div>
+                </div>
+                <div className="col-md-7">
                     <div className="form-group">
                         <label htmlFor="name">Link de Compra</label>
-                        <input type="name" className="form-control" id="name" name="buyLink"
+                        <input type="name" className="form-control"  name="buyLink"
                         />
                     </div>
                 </div>
