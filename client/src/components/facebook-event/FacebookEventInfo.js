@@ -71,7 +71,7 @@ class FacebookEventInfo extends Component {
                     <div className="row">
                         <div className="form-group col-md-10">
                             <label htmlFor="name">Subtítulo</label>
-                            <input type="name" className="form-control" id="name" required name="subtitle"
+                            <input type="name" className="form-control" id="name"  name="subtitle"
                             />
                         </div>
                         <div className="form-group col-md-2">
@@ -121,7 +121,7 @@ class FacebookEventInfo extends Component {
                     <div className="row">
                         <div className="form-group col-md-6 ">
                             <label htmlFor="place">Local</label>
-                            <input type="text" className="form-control " id="place" required
+                            <input type="text" className="form-control " id="place"
                                    name="place" defaultValue={this.state.info.place.name}/>
                         </div>
                         <div className="form-group col-md-6 ">
@@ -151,7 +151,7 @@ class FacebookEventInfo extends Component {
                                        defaultValue={this.state.info.place.location && this.state.info.place.location.street}/>
                             </div>
                             <div className="col-md-3">
-                                <input type="text" className="form-control " id="name" required
+                                <input type="text" className="form-control " id="name"
                                        name="neighborhood" placeholder="Bairro"/>
                             </div>
                             <div className="col-md-3">
