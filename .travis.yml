@@ -7,7 +7,8 @@ cache:
 
 notifications:
   slack:
-    rooms: vibn:$SLACK_TOKEN#desenvolvimento
+    rooms:
+      - vibn:fziwh78cHZvFWAZWJ7FYPzgY#desenvolvimento
     on_success: always
 
 install:
