@@ -6,7 +6,8 @@ cache:
     - "node_modules"
 
 notifications:
-  slack: vibn:$SLACK_TOKEN#desenvolvimento
+  slack:
+    rooms: vibn:$SLACK_TOKEN#desenvolvimento
     on_success: always
 
 install:
