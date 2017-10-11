@@ -88,7 +88,7 @@ class EventExtras extends Component {
             tags: this.state.tags,
             ...this.props.event,
             ...values,
-            createdAt: moment().toJSON()
+            createdAt: moment().toDate()
         };
 
         this.setState({isSending: true});

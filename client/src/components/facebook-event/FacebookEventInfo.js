@@ -6,7 +6,7 @@ import serializeForm from 'form-serialize';
 import {Redirect} from 'react-router-dom';
 import {dateMask, timeMask} from "../../utils/masks";
 import MaskedInput from "react-text-mask";
-
+import {GeoPoint} from 'firebase/firestore/api/geo_point';
 class FacebookEventInfo extends Component {
 
 
@@ -36,6 +36,11 @@ class FacebookEventInfo extends Component {
 
         values.img = this.state.info.cover && this.state.info.cover.source;
         values.id = this.state.info.id;
+
+        values.coordinates = new GeoPoint(Number.parseFloat(values.latitude), Number.parseFloat(values.longitude));
+
+        delete values.latitude;
+        delete values.longitude;
 
         this.props.setEvent(values);
 

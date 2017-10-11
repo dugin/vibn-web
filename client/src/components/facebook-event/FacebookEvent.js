@@ -46,7 +46,6 @@ class FacebookEvent extends Component {
 
         facebookAPI.getEvent(values.eventID)
             .then(info => {
-                console.log(info);
 
                 FacebookEvent.info = info;
 
