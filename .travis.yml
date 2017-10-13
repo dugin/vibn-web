@@ -5,7 +5,7 @@ node_js:
 notifications:
   slack:
     rooms:
-      - $SLACK_TOKEN_ROOM_DEV
+      - vibn:fziwh78cHZvFWAZWJ7FYPzgY#desenvolvimento
     on_success: always
 
 
