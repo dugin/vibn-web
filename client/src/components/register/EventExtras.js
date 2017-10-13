@@ -117,14 +117,14 @@ class EventExtras extends Component {
                         />
                     </div>
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-3">
                     <div className="form-group">
                         <label htmlFor="name">Desconto (%)</label>
                         <input type="number" className="form-control" name="discount"
                         />
                     </div>
                 </div>
-                <div className="col-md-7">
+                <div className="col-md-6">
                     <div className="form-group">
                         <label htmlFor="name">Link de Compra</label>
                         <input type="name" className="form-control"  name="buyLink"

@@ -7,6 +7,7 @@ import {Redirect} from 'react-router-dom';
 import {dateMask, timeMask} from "../../utils/masks";
 import MaskedInput from "react-text-mask";
 import {GeoPoint} from 'firebase/firestore/api/geo_point';
+
 class FacebookEventInfo extends Component {
 
 
@@ -31,21 +32,26 @@ class FacebookEventInfo extends Component {
 
     onContinue = (e) => {
         e.preventDefault();
-
         const values = serializeForm(e.target, {hash: true});
+
+        const sDate = values.startDate;
+        const eDate = values.endDate;
 
         values.img = this.state.info.cover && this.state.info.cover.source;
         values.id = this.state.info.id;
 
         values.coordinates = new GeoPoint(Number.parseFloat(values.latitude), Number.parseFloat(values.longitude));
 
+        values.startDate = moment(`${sDate} ${values.startTime}`, 'DD/MM/YYYY HH:mm').toDate();
+        values.endDate = moment(`${eDate} ${values.endTime}`, 'DD/MM/YYYY HH:mm').toDate();
+
         delete values.latitude;
         delete values.longitude;
+        delete values.endTime;
+        delete values.startTime;
 
         this.props.setEvent(values);
-
         FacebookEventInfo.event = values;
-
         this.setState({onContinue: true})
     };
 
@@ -71,7 +77,7 @@ class FacebookEventInfo extends Component {
                     <div className="row">
                         <div className="form-group col-md-10">
                             <label htmlFor="name">Subtítulo</label>
-                            <input type="name" className="form-control" id="name"  name="subtitle"
+                            <input type="name" className="form-control" id="name" name="subtitle"
                             />
                         </div>
                         <div className="form-group col-md-2">
@@ -151,7 +157,7 @@ class FacebookEventInfo extends Component {
                                        defaultValue={this.state.info.place.location && this.state.info.place.location.street}/>
                             </div>
                             <div className="col-md-3">
-                                <input type="text" className="form-control " id="name"
+                                <input type="text" className="form-control " id="name" required
                                        name="neighborhood" placeholder="Bairro"/>
                             </div>
                             <div className="col-md-3">
