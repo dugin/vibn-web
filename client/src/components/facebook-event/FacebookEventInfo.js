@@ -41,7 +41,8 @@ class FacebookEventInfo extends Component {
         values.img = this.state.info.cover && this.state.info.cover.source;
         values.id = this.state.info.id;
 
-        values.coordinates = new GeoPoint(Number.parseFloat(values.latitude), Number.parseFloat(values.longitude));
+        if (values.latitude && values.longitude)
+            values.coordinates = new GeoPoint(Number.parseFloat(values.latitude), Number.parseFloat(values.longitude));
 
         values.startDate = moment(`${sDate} ${values.startTime}`, 'DD/MM/YYYY HH:mm').toDate();
         values.endDate = moment(`${eDate} ${values.endTime}`, 'DD/MM/YYYY HH:mm').toDate();

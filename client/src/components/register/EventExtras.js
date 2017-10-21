@@ -39,7 +39,7 @@ class EventExtras extends Component {
                     this.setState({
                         [Object.values(TAGS)[i]]:
                             Object.keys(this.state)[i].localeCompare(TAGS.LOCATION_REGION) === 0 ?
-                                d.data()[removeAccentAndSpace(this.props.event.city || 'Rio de Janeiro')] :
+                                d.data()[removeAccentAndSpace(this.props.event.city)] :
                                 d.data().name
                     })
                 })
@@ -84,7 +84,7 @@ class EventExtras extends Component {
 
     onSend = (e) => {
         e.preventDefault();
-        
+
         const values = serializeForm(e.target, {hash: true});
 
         const result = {

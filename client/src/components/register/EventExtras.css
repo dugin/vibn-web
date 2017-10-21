@@ -2,7 +2,8 @@
   font-size: 14px; }
 
 .EventExtras .direct-link {
-  text-align: center; }
+  text-align: center;
+  margin-top: 0; }
 
 .EventExtras .form-check-input {
   margin-right: 10px;
