@@ -1,6 +1,9 @@
 .EventExtras .form-check-label {
   font-size: 14px; }
 
+.EventExtras .direct-link {
+  text-align: center; }
+
 .EventExtras .form-check-input {
   margin-right: 10px;
   transform: scale(1.5); }

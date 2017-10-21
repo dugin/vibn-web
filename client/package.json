@@ -23,7 +23,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "react-text-mask": "^5.0.2",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "moment-timezone": "0.5.13"
 
   },
   "devDependencies": {
@@ -42,7 +43,7 @@
   },
   "scripts": {
     "start-js": "react-scripts start",
-    "start": "PORT=8100 npm-run-all -p watch-css start-js",
+    "start": "PORT=8500 npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",

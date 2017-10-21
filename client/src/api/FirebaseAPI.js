@@ -26,5 +26,5 @@ export const getTags = (type) => {
 export const postEvent = (event) => {
     const eventsRef = db.collection("events").doc(event.id);
 
-    return eventsRef.set(event);
+    return eventsRef.set(event, {merge: true});
 };

@@ -7,6 +7,7 @@ import {Redirect} from 'react-router-dom';
 import {dateMask, timeMask} from "../../utils/masks";
 import MaskedInput from "react-text-mask";
 import {GeoPoint} from 'firebase/firestore/api/geo_point';
+import 'moment/locale/pt-br';
 
 class FacebookEventInfo extends Component {
 

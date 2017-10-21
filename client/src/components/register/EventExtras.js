@@ -8,6 +8,8 @@ import {Redirect} from 'react-router-dom';
 import moment from 'moment';
 import serializeForm from 'form-serialize';
 import isEmpty from 'lodash/isEmpty';
+import 'moment/locale/pt-br';
+
 
 class EventExtras extends Component {
 
@@ -17,7 +19,8 @@ class EventExtras extends Component {
         partyKind: [],
         tags: {locationRegion: [], musicStyle: [], partyKind: []},
         isSending: false,
-        success: false
+        success: false,
+        directLink: false
     };
 
     componentDidMount() {
@@ -81,14 +84,15 @@ class EventExtras extends Component {
 
     onSend = (e) => {
         e.preventDefault();
-
+        
         const values = serializeForm(e.target, {hash: true});
 
         const result = {
             tags: this.state.tags,
             ...this.props.event,
             ...values,
-            createdAt: moment().toDate()
+            createdAt: moment().toDate(),
+            directLink: this.state.directLink
         };
 
         this.setState({isSending: true});
@@ -110,16 +114,16 @@ class EventExtras extends Component {
         return (
             <form className="row EventExtras" onSubmit={this.onSend}>
 
-                <div className=" col-md-3">
+                <div className=" col-md-2">
                     <div className="form-group">
                         <label htmlFor="name">Cupom</label>
-                        <input type="name" className="form-control"  name="coupon"
+                        <input type="name" className="form-control" name="coupon"
                         />
                     </div>
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-2">
                     <div className="form-group">
-                        <label htmlFor="name">Desconto (%)</label>
+                        <label htmlFor="name">Desconto</label>
                         <input type="number" className="form-control" name="discount"
                         />
                     </div>
@@ -127,8 +131,19 @@ class EventExtras extends Component {
                 <div className="col-md-6">
                     <div className="form-group">
                         <label htmlFor="name">Link de Compra</label>
-                        <input type="name" className="form-control"  name="buyLink"
+                        <input type="name" className="form-control" name="buyLink"
                         />
+                    </div>
+                </div>
+                <div className="col-md-2">
+                    <p> Link Direto? </p>
+                    <div className="form-check direct-link">
+                        <label className="form-check-label">
+                            <input className="form-check-input" onClick={() => {
+                                this.setState({directLink: !this.state.directLink})
+                            }}
+                                   type="checkbox" value=""/>
+                        </label>
                     </div>
                 </div>
                 <div className="col-md-4">
