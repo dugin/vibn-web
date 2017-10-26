@@ -2,13 +2,15 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const moment = require('moment-timezone');
 moment.tz.setDefault("America/Sao_Paulo");
+const geo = require('firebase/firestore/api/geo_point');
+
 moment.locale('pt-BR');
 
 const FB = require('fb'),
     fb = new FB.Facebook({
-        accessToken: functions.config().facebook.accesstoken,
-        appId: functions.config().facebook.appid,
-        appSecret: functions.config().facebook.appsecret,
+        accessToken: '876019839240922|hjW0NAxrXjS7GTFsvTLIDDo8TZk',
+        appId: '876019839240922',
+        appSecret: '2dde1311c1dcbdc9f4928178f3923945',
         version: 'v2.4',
     });
 admin.initializeApp(functions.config().firebase);
@@ -58,12 +60,14 @@ function setEventObject(event) {
             place = {
                 address: event.place.location.street || null,
                 city: event.place.location.city || null,
-                state: event.place.location.state || null
+                state: event.place.location.state || null,
+
             };
+            // if (event.place.location.latitude && event.place.location.longitude)
+            //     place.coordinates =new geo.GeoPoint(Number.parseFloat(event.place.location.latitude), Number.parseFloat(event.place.location.longitude))
         }
         place.name = event.place.name || null;
     }
-
     return {
         startDate: moment(event.start_time).toDate(),
         endDate: moment(event.end_time).toDate(),
