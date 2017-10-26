@@ -2,7 +2,6 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const moment = require('moment-timezone');
 moment.tz.setDefault("America/Sao_Paulo");
-const geo = require('firebase/firestore/api/geo_point');
 
 moment.locale('pt-BR');
 
@@ -53,32 +52,31 @@ function updateEventOnFirebase(event) {
 }
 
 function setEventObject(event) {
-    let place = {};
+    let obj = {};
 
     if (event.place) {
         if (event.place.location) {
-            place = {
+            obj = {
                 address: event.place.location.street || null,
                 city: event.place.location.city || null,
                 state: event.place.location.state || null,
-
             };
-            // if (event.place.location.latitude && event.place.location.longitude)
-            //     place.coordinates =new geo.GeoPoint(Number.parseFloat(event.place.location.latitude), Number.parseFloat(event.place.location.longitude))
+            if (event.place.location.latitude && event.place.location.longitude)
+                obj.coordinates = new admin.firestore.GeoPoint(Number.parseFloat(event.place.location.latitude), Number.parseFloat(event.place.location.longitude))
         }
-        place.name = event.place.name || null;
+        obj.name = event.place.name || null;
     }
-    return {
-        startDate: moment(event.start_time).toDate(),
-        endDate: moment(event.end_time).toDate(),
-        img: event.cover.source,
-        modifiedAt: moment().toDate(),
-        ...place,
-        attendingCount: event.attending_count,
-        description: event.description,
-        id: event.id,
-        title: event.name
-    };
+
+    obj.startDate = moment(event.start_time).toDate();
+    obj.endDate = moment(event.end_time).toDate();
+    obj.img = event.cover.source;
+    obj.modifiedAt = moment().toDate();
+    obj.attendingCount = event.attending_count;
+    obj.description = event.description;
+    obj.id = event.id;
+    obj.title = event.name;
+
+    return obj;
 }
 
 function getEventFromFacebook(id) {
