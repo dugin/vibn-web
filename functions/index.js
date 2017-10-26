@@ -7,9 +7,9 @@ moment.locale('pt-BR');
 
 const FB = require('fb'),
     fb = new FB.Facebook({
-        accessToken: '876019839240922|hjW0NAxrXjS7GTFsvTLIDDo8TZk',
-        appId: '876019839240922',
-        appSecret: '2dde1311c1dcbdc9f4928178f3923945',
+        accessToken: functions.config().facebook.accesstoken,
+        appId: functions.config().facebook.appid,
+        appSecret: functions.config().facebook.appsecret,
         version: 'v2.4',
     });
 admin.initializeApp(functions.config().firebase);
@@ -64,7 +64,7 @@ function setEventObject(event) {
             if (event.place.location.latitude && event.place.location.longitude)
                 obj.coordinates = new admin.firestore.GeoPoint(Number.parseFloat(event.place.location.latitude), Number.parseFloat(event.place.location.longitude))
         }
-        obj.name = event.place.name || null;
+        obj.place = event.place.name || null;
     }
 
     obj.startDate = moment(event.start_time).toDate();
