@@ -8,5 +8,8 @@
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.13"
   },
+  "devDependencies": {
+    "dotenv":"^4.0.0"
+  },
   "private": true
 }
