@@ -52,7 +52,6 @@ class Firebase {
         obj.attendingCount = event.attending_count;
         obj.description = event.description;
         obj.id = event.id;
-        obj.title = event.name;
 
         return obj;
     }
