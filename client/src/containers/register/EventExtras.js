@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getTags, postEvent } from '../../api/FirebaseAPI';
 import CheckboxTags from '../../components/CheckBox-Tags';
 import { TAGS } from '../../utils/constants';
-import { addOrRemoveFromArray, removeAccentAndSpace } from '../../utils/utils';
+import { addOrRemoveFromArray } from '../../utils/utils';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import serializeForm from 'form-serialize';
