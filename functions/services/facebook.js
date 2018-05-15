@@ -1,4 +1,5 @@
 const FB = require('fb');
+const functions = require('firebase-functions');
 
 class Facebook {
   constructor() {

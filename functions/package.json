@@ -3,8 +3,8 @@
   "description": "Cloud Functions for Firebase",
   "dependencies": {
     "fb": "^2.0.0",
-    "firebase-admin": "^5.4.3",
-    "firebase-functions": "^0.7.1",
+    "firebase-admin":"^5.12.0",
+    "firebase-functions":"^1.0.2",
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.13"
   },
