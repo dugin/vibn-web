@@ -9,9 +9,7 @@ class App extends Component {
       <div className="App">
         <Switch>
           {/*<Route exact path="/admin/signin" component={LoginPage}/>*/}
-
           <Route path="/admin/events/register/" component={RegisterPage} />
-
           <Redirect from="**" to="/admin/events/register/" />
         </Switch>
       </div>

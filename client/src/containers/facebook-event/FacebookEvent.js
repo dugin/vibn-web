@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import * as facebookAPI from '../../api/FacebookAPI';
-import * as firebaseAPI from '../../api/FirebaseAPI';
-
 import serializeForm from 'form-serialize';
 import './FacebookEvent.css';
 import Loading from '../../components/Loading';
+import { ERRORS_TYPE, fetchEventAction } from '../../reducers/event.reducer';
 import FacebookEventInfo from './FacebookEventInfo';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
+import _ from 'lodash';
 
 class FacebookEvent extends Component {
-  static info;
-
   state = {
-    isGettingEvent: false,
-    acessToken: null,
-    info: FacebookEvent.info,
-    error: null
+    acessToken: null
   };
 
   responseFacebook = response => {
@@ -30,44 +24,21 @@ class FacebookEvent extends Component {
   };
 
   componentDidMount() {
+    facebookAPI.setVersion();
     this.setState({
       acessToken: facebookAPI.getAcessToken()
     });
   }
 
   getEvent = e => {
-    this.setState({
-      isGettingEvent: true,
-      info: null,
-      error: null
-    });
-
     e.preventDefault();
     const values = serializeForm(e.target, { hash: true });
 
-    firebaseAPI
-      .isEventExist(values.eventID)
-      .then(exist => {
-        if (exist) {
-          throw new Error('Evento já existe no nosso Banco de Dados');
-        } else {
-          return facebookAPI.getEvent(values.eventID);
-        }
-      })
-      .then(info => {
-        FacebookEvent.info = info;
-
-        this.setState({ isGettingEvent: false, info });
-      })
-      .catch(err => {
-        this.setState({
-          isGettingEvent: false,
-          error: err.exception ? err.exception.response.body.error.message : err.message
-        });
-      });
+    this.props.dispatch(fetchEventAction(values.eventID));
   };
 
   render() {
+    console.log(this.props);
     return (
       <div className="FacebookEvent row">
         {this.state.acessToken ? (
@@ -77,7 +48,7 @@ class FacebookEvent extends Component {
                 <input
                   type="text"
                   name="eventID"
-                  className="form-control "
+                  className="form-control"
                   required
                   placeholder="ID do Evento"
                 />
@@ -86,15 +57,18 @@ class FacebookEvent extends Component {
                 Buscar
               </button>
             </form>
-            {this.state.isGettingEvent && <Loading />}
+            {this.props.isLoading && <Loading />}
 
-            {this.state.error && <h4 className="mt-4">{this.state.error} </h4>}
-
-            {!isEmpty(this.state.info) && (
-              <div className="mt-3  px-0">
-                <FacebookEventInfo info={this.state.info} />
-              </div>
+            {_.get(this.props.error, 'type') === ERRORS_TYPE.ALREADY_IN_DATABASE && (
+              <h3 className="mt-3">{this.props.error.message}</h3>
             )}
+
+            {this.props.isLoading === false &&
+              _.get(this.props.error, 'type') !== ERRORS_TYPE.ALREADY_IN_DATABASE && (
+                <div className="mt-3  px-0">
+                  <FacebookEventInfo info={this.state.info} />
+                </div>
+              )}
           </div>
         ) : (
           <FacebookLogin
@@ -111,6 +85,6 @@ class FacebookEvent extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({ event: state.event });
+const mapStateToProps = ({ eventReducer }) => ({ ...eventReducer });
 
 export default connect(mapStateToProps)(FacebookEvent);

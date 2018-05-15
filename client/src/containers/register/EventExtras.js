@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './EventExtras.css';
 import { connect } from 'react-redux';
-import { getTags, postEvent } from '../../api/FirebaseAPI';
+import { getTags } from '../../api/FirebaseAPI';
 import CheckboxTags from '../../components/CheckBox-Tags';
+import { postEventAction } from '../../reducers/event.reducer';
 import { TAGS } from '../../utils/constants';
 import { addOrRemoveFromArray } from '../../utils/utils';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import serializeForm from 'form-serialize';
-import isEmpty from 'lodash/isEmpty';
+import _ from 'lodash';
 import 'moment/locale/pt-br';
 
 class EventExtras extends Component {
@@ -17,15 +18,11 @@ class EventExtras extends Component {
     musicStyle: [],
     partyKind: [],
     tags: { locationRegion: [], musicStyle: [], partyKind: [] },
-    isSending: false,
-    success: false,
     directLink: false
   };
 
   componentDidMount() {
     this.getAllTags();
-
-    console.log(this.props.event);
   }
 
   getAllTags = () => {
@@ -79,7 +76,6 @@ class EventExtras extends Component {
     e.preventDefault();
 
     const values = serializeForm(e.target, { hash: true });
-
     const result = {
       tags: this.state.tags,
       ...this.props.event,
@@ -88,20 +84,11 @@ class EventExtras extends Component {
       directLink: this.state.directLink
     };
 
-    this.setState({ isSending: true });
-
-    postEvent(result)
-      .then(resp => {
-        this.setState({ success: true });
-      })
-      .catch(err => {
-        this.setState({ isSending: false });
-      });
+    this.props.dispatch(postEventAction(result));
   };
 
   render() {
-    if (this.state.success || isEmpty(this.props.event))
-      return <Redirect push to="/admin/events/register" />;
+    if (_.isEmpty(this.props.event)) return <Redirect push to="/admin/events/register" />;
 
     const { musicStyle, partyKind, locationRegion, directLink, isSending } = this.state;
 
@@ -158,6 +145,6 @@ class EventExtras extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({ event: state.event });
+const mapStateToProps = ({ eventReducer }) => ({ ...eventReducer });
 
-export default connect(mapStateToProps, null)(EventExtras);
+export default connect(mapStateToProps)(EventExtras);
