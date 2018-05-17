@@ -259,9 +259,9 @@ class FacebookEventInfo extends Component {
                   className="form-control "
                   id="name"
                   required
-                  name="props"
+                  name="state"
                   placeholder="estado"
-                  defaultValue={_.get(event, 'place.location.city')}
+                  defaultValue={_.get(event, 'place.location.state')}
                 />
               </div>
             </div>
